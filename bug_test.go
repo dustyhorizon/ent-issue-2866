@@ -12,8 +12,8 @@ import (
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
 
-	"entgo.io/bug/ent"
 	"entgo.io/bug/ent/enttest"
+	ent "entgo.io/bug/ent/generated"
 )
 
 func TestBugSQLite(t *testing.T) {
@@ -56,9 +56,9 @@ func TestBugMaria(t *testing.T) {
 
 func test(t *testing.T, client *ent.Client) {
 	ctx := context.Background()
-	client.User.Delete().ExecX(ctx)
-	client.User.Create().SetName("Ariel").SetAge(30).ExecX(ctx)
-	if n := client.User.Query().CountX(ctx); n != 1 {
-		t.Errorf("unexpected number of users: %d", n)
+	client.One.Delete().ExecX(ctx)
+	client.One.Create().SetSomething("Ariel").ExecX(ctx)
+	if n := client.One.Query().CountX(ctx); n != 1 {
+		t.Errorf("unexpected number of ones: %d", n)
 	}
 }
